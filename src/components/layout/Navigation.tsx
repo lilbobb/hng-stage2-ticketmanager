@@ -18,7 +18,7 @@ export const Navigation: React.FC<NavigationProps> = ({ onNavigate, showAuth = f
   return (
     <nav className="w-full bg-black shadow-sm border-b sticky top-0 z-50">
       <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
-        <h1 className="text-2xl font-bold text-[#EDEDED]" onClick={() => onNavigate('landing')}>Emprex</h1>
+        <h1 className="text-2xl font-bold text-[#EDEDED]" onClick={() => onNavigate?.('landing')}>Emprex</h1>
         
         {showAuth && user ? (
           <div className="flex items-center gap-4">
