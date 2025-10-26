@@ -6,7 +6,7 @@ import { formatDate, formatStatus } from '../../utils/helpers';
 interface TicketCardProps {
   ticket: Ticket;
   onEdit: (ticket: Ticket) => void;
-  onDelete: (id: string) => void;
+  onDelete: (ticket: Ticket) => void;
 }
 
 export const TicketCard: React.FC<TicketCardProps> = ({ ticket, onEdit, onDelete }) => {
@@ -41,7 +41,7 @@ export const TicketCard: React.FC<TicketCardProps> = ({ ticket, onEdit, onDelete
             <Edit2 size={18} />
           </button>
           <button
-            onClick={() => onDelete(ticket.id)}
+            onClick={() => onDelete(ticket)}
             className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition"
             title="Delete ticket"
           >

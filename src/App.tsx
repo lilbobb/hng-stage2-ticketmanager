@@ -5,33 +5,43 @@ import { AuthPage } from './components/auth/AuthPage';
 import { Dashboard } from './components/dashboard/Dashboard';
 import { TicketManagement } from './components/tickets/TicketManagement';
 
+interface NavigationState {
+  page: string;
+  props?: any;
+}
+
 const App: React.FC = () => {
-  const [currentPage, setCurrentPage] = useState('landing');
+  const [navigationState, setNavigationState] = useState<NavigationState>({ page: 'landing' });
   const [isInitialized, setIsInitialized] = useState(false);
   const { user } = useAuth();
+
+  // Update to handle both page and props
+  const handleNavigate = (page: string, props: any = {}) => {
+    setNavigationState({ page, props });
+  };
 
   useEffect(() => {
     const savedRoute = sessionStorage.getItem('ticketapp_current_route');
     if (savedRoute && user) {
-      setCurrentPage(savedRoute);
+      setNavigationState({ page: savedRoute });
     }
     setIsInitialized(true);
   }, [user]);
 
   useEffect(() => {
     if (isInitialized) {
-      sessionStorage.setItem('ticketapp_current_route', currentPage);
+      sessionStorage.setItem('ticketapp_current_route', navigationState.page);
     }
-  }, [currentPage, isInitialized]);
+  }, [navigationState.page, isInitialized]);
 
   useEffect(() => {
     if (!isInitialized) return;
     
-    if ((currentPage === 'dashboard' || currentPage === 'tickets') && !user) {
-      setCurrentPage('login');
+    if ((navigationState.page === 'dashboard' || navigationState.page === 'tickets') && !user) {
+      setNavigationState({ page: 'login' });
       sessionStorage.removeItem('ticketapp_current_route');
     }
-  }, [currentPage, user, isInitialized]);
+  }, [navigationState.page, user, isInitialized]);
 
   if (!isInitialized) {
     return (
@@ -45,19 +55,22 @@ const App: React.FC = () => {
   }
 
   const renderPage = () => {
-    switch (currentPage) {
+    switch (navigationState.page) {
       case 'landing':
-        return <LandingPage onNavigate={setCurrentPage} />;
+        return <LandingPage onNavigate={handleNavigate} />;
       case 'login':
-        return <AuthPage mode="login" onNavigate={setCurrentPage} />;
+        return <AuthPage mode="login" onNavigate={handleNavigate} />;
       case 'signup':
-        return <AuthPage mode="signup" onNavigate={setCurrentPage} />;
+        return <AuthPage mode="signup" onNavigate={handleNavigate} />;
       case 'dashboard':
-        return <Dashboard onNavigate={setCurrentPage} />;
+        return <Dashboard onNavigate={handleNavigate} />;
       case 'tickets':
-        return <TicketManagement onNavigate={setCurrentPage} />;
+        return <TicketManagement 
+          onNavigate={handleNavigate} 
+          initialShowForm={navigationState.props?.showForm || false} 
+        />;
       default:
-        return <LandingPage onNavigate={setCurrentPage} />;
+        return <LandingPage onNavigate={handleNavigate} />;
     }
   };
 

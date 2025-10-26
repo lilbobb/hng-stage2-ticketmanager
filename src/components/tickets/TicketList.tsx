@@ -5,7 +5,7 @@ import { TicketCard } from './TicketCard';
 interface TicketListProps {
   tickets: Ticket[];
   onEdit: (ticket: Ticket) => void;
-  onDelete: (id: string) => void;
+  onDelete: (ticket: Ticket) => void;
 }
 
 export const TicketList: React.FC<TicketListProps> = ({ tickets, onEdit, onDelete }) => {

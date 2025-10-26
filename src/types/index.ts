@@ -6,8 +6,8 @@ export interface User {
 export interface Ticket {
   id: string;
   title: string;
-  description?: string;
-  status: 'open' | 'in_progress' | 'closed';
+  description: string;
+  status: 'open' | 'inProgress' | 'closed';
   priority?: 'low' | 'medium' | 'high';
   createdAt: string;
 }

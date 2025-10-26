@@ -10,6 +10,10 @@ interface DashboardProps {
 export const Dashboard: React.FC<DashboardProps> = ({ onNavigate }) => {
   const { stats } = useTickets();
 
+ const handleCreateTicket = () => {
+  onNavigate('tickets', { showForm: true });
+};
+
   return (
     <Layout onNavigate={onNavigate} showAuth>
       <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-12 border-b border-gray-800">
@@ -28,7 +32,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ onNavigate }) => {
             <Button variant="primary" onClick={() => onNavigate('tickets')}>
               Manage Tickets
             </Button>
-            <Button variant="success" onClick={() => onNavigate('tickets')}>
+            <Button variant="success" onClick={handleCreateTicket}>
               Create New Ticket
             </Button>
           </div>
