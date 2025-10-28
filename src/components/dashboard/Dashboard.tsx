@@ -11,7 +11,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ onNavigate }) => {
   const { stats } = useTickets();
 
  const handleCreateTicket = () => {
-  onNavigate('tickets', { showForm: true });
+  onNavigate('tickets');
 };
 
   return (
