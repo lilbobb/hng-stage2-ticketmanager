@@ -15,7 +15,7 @@ export const StatCard: React.FC<StatCardProps> = ({ value, label, color }) => {
   };
 
   return (
-    <div className="bg-[#0B0B12] p-6 rounded-xl shadow-lg">
+    <div className="bg-[#0B0B12] p-6 rounded-xl shadow-lg border border-gray-500">
       <div className={`text-3xl font-bold mb-2 ${colors[color]}`}>{value}</div>
       <div className="text-[#9CA3AF] font-medium">{label}</div>
     </div>
