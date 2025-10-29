@@ -52,17 +52,16 @@ export const TicketManagement: React.FC<TicketManagementProps> = ({
   };
 
   const handleDeleteClick = (ticket: Ticket) => {
-    
     setDeleteModal({
       isOpen: true,
       ticketId: ticket.id,
-      ticketTitle: ticket.title || 'Untitled Ticket' 
+      ticketTitle: ticket.title || 'Untitled Ticket'
     });
   };
 
   const handleDeleteConfirm = () => {
-    console.log('Delete confirmed for ticket ID:', deleteModal.ticketId); 
-    
+    console.log('Delete confirmed for ticket ID:', deleteModal.ticketId);
+
     if (deleteModal.ticketId) {
       try {
         deleteTicket(deleteModal.ticketId);
@@ -100,23 +99,30 @@ export const TicketManagement: React.FC<TicketManagementProps> = ({
         message={`Are you sure you want to delete "${deleteModal.ticketTitle || 'this ticket'}"? This action cannot be undone.`}
       />
 
-      <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="border-b-gray-700 flex justify-between items-center mb-8">
-          <h2 className="text-3xl font-bold text-[#9CA3AF]">Ticket Management</h2>
+      <div className="max-w-[1440px] mx-auto px-3 sm:px-4 lg:px-6 py-6 sm:py-8 lg:py-12">
+        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6 sm:mb-8">
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-[#9CA3AF] text-center sm:text-left">
+            Ticket Management
+          </h2>
           <button
             onClick={() => setShowForm(!showForm)}
-            className="flex items-center gap-2 px-6 py-3 bg-[#8B5CF6] text-[#EDEDED] rounded-lg font-semibold hover:bg-[#3B82F6] transition"
+            className="w-full sm:w-auto flex items-center justify-center gap-2 px-4 sm:px-6 py-3 bg-[#8B5CF6] text-white rounded-lg font-semibold hover:bg-[#3B82F6] transition-all duration-200 text-base sm:text-lg shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 active:translate-y-0"
           >
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+            </svg>
             {showForm ? 'Cancel' : 'New Ticket'}
           </button>
         </div>
 
         {showForm && (
-          <TicketForm
-            ticket={editingTicket}
-            onSubmit={handleSubmit}
-            onCancel={resetForm}
-          />
+          <div className="mb-6 sm:mb-8">
+            <TicketForm
+              ticket={editingTicket}
+              onSubmit={handleSubmit}
+              onCancel={resetForm}
+            />
+          </div>
         )}
 
         <TicketList

@@ -1,5 +1,6 @@
 import React from 'react';
 import { WaveBackground } from './WaveBackground';
+import { Button } from '../ui/Button';
 
 interface HeroSectionProps {
   onNavigate: (page: string) => void;
@@ -8,27 +9,32 @@ interface HeroSectionProps {
 export const HeroSection: React.FC<HeroSectionProps> = ({ onNavigate }) => {
   return (
     <div className="relative overflow-hidden bg-[#0B0B12] text-white">
-      <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-32 relative z-10">
+      <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-20 lg:py-32 relative z-10">
         <div className="text-center">
-          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold mb-4 sm:mb-6">
             Manage Your Tickets Effortlessly
           </h2>
-          <p className="text-xl sm:text-2xl mb-8 text-[#9CA3AF] max-w-3xl mx-auto">
+          <p className="text-lg sm:text-xl lg:text-2xl mb-6 sm:mb-8 text-[#9CA3AF] max-w-2xl sm:max-w-3xl mx-auto px-2">
             Streamline your workflow with our powerful ticket management system. Track, organize, and resolve issues faster than ever.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center">
+            <Button
               onClick={() => onNavigate('signup')}
-              className="px-8 py-4 bg-[#8B5CF6] text-[#EDEDED] rounded-lg font-semibold text-lg hover:bg-[#3B82F6] transition shadow-lg cursor-pointer"
+              variant="primary"
+              size="lg"
+              className="w-full sm:w-auto transform hover:-translate-y-0.5 active:translate-y-0"
             >
               Get Started
-            </button>
-            <button
+            </Button>
+
+            <Button
               onClick={() => onNavigate('login')}
-              className="px-8 py-4 bg-[#8B5CF6] text-[#EDEDED] rounded-lg font-semibold text-lg hover:bg-[#3B82F6] transition border-2 border-white cursor-pointer"
+              variant="outline"
+              size="lg"
+              className="w-full sm:w-auto border-white/50 text-white hover:border-white transform hover:-translate-y-0.5 active:translate-y-0"
             >
               Login
-            </button>
+            </Button>
           </div>
         </div>
       </div>

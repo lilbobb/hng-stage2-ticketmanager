@@ -5,9 +5,13 @@ import { AuthPage } from './components/auth/AuthPage';
 import { Dashboard } from './components/dashboard/Dashboard';
 import { TicketManagement } from './components/tickets/TicketManagement';
 
+interface NavigationProps {
+  showForm?: boolean;
+}
+
 interface NavigationState {
   page: string;
-  props?: any;
+  props?: NavigationProps;
 }
 
 const App: React.FC = () => {
@@ -15,13 +19,18 @@ const App: React.FC = () => {
   const [isInitialized, setIsInitialized] = useState(false);
   const { user } = useAuth();
 
-  // Update to handle both page and props
-  const handleNavigate = (page: string, props: any = {}) => {
+  console.log('🚀 App component - User:', user);
+  console.log('📍 Current page:', navigationState.page);
+
+  const handleNavigate = (page: string, props: NavigationProps = {}) => {
+    console.log('🔄 Navigating to:', page, 'User exists:', !!user);
     setNavigationState({ page, props });
   };
 
   useEffect(() => {
+    console.log('🎯 App useEffect - Checking saved route');
     const savedRoute = sessionStorage.getItem('ticketapp_current_route');
+    console.log('💾 Saved route:', savedRoute);
     if (savedRoute && user) {
       setNavigationState({ page: savedRoute });
     }
@@ -30,20 +39,33 @@ const App: React.FC = () => {
 
   useEffect(() => {
     if (isInitialized) {
+      console.log('💾 Saving route to sessionStorage:', navigationState.page);
       sessionStorage.setItem('ticketapp_current_route', navigationState.page);
     }
   }, [navigationState.page, isInitialized]);
 
   useEffect(() => {
     if (!isInitialized) return;
-    
-    if ((navigationState.page === 'dashboard' || navigationState.page === 'tickets') && !user) {
+
+    const protectedRoutes = ['dashboard', 'tickets'];
+    const currentRoute = navigationState.page;
+
+    console.log('🔒 Route protection check - Page:', currentRoute, 'User:', user);
+
+    if (protectedRoutes.includes(currentRoute) && !user) {
+      console.log('🚫 Redirecting to login - protected route without user');
       setNavigationState({ page: 'login' });
       sessionStorage.removeItem('ticketapp_current_route');
+    }
+
+    if (user && (currentRoute === 'login' || currentRoute === 'signup')) {
+      console.log('✅ User logged in, redirecting from auth to dashboard');
+      setNavigationState({ page: 'dashboard' });
     }
   }, [navigationState.page, user, isInitialized]);
 
   if (!isInitialized) {
+    console.log('⏳ App showing loading state');
     return (
       <div className="min-h-screen flex items-center justify-center bg-black">
         <div className="text-center">
@@ -53,6 +75,8 @@ const App: React.FC = () => {
       </div>
     );
   }
+
+  console.log('🎨 Rendering page:', navigationState.page);
 
   const renderPage = () => {
     switch (navigationState.page) {
@@ -65,9 +89,9 @@ const App: React.FC = () => {
       case 'dashboard':
         return <Dashboard onNavigate={handleNavigate} />;
       case 'tickets':
-        return <TicketManagement 
-          onNavigate={handleNavigate} 
-          initialShowForm={navigationState.props?.showForm || false} 
+        return <TicketManagement
+          onNavigate={handleNavigate}
+          initialShowForm={navigationState.props?.showForm || false}
         />;
       default:
         return <LandingPage onNavigate={handleNavigate} />;

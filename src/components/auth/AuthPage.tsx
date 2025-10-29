@@ -22,12 +22,12 @@ export const AuthPage: React.FC<AuthPageProps> = ({ mode, onNavigate }) => {
   const validate = () => {
     const emailError = validateEmail(email);
     const passwordError = validatePassword(password);
-    
+
     setErrors({
       email: emailError || undefined,
       password: passwordError || undefined
     });
-    
+
     return !emailError && !passwordError;
   };
 
@@ -37,7 +37,7 @@ export const AuthPage: React.FC<AuthPageProps> = ({ mode, onNavigate }) => {
 
     setLoading(true);
     try {
-      const success = mode === 'login' 
+      const success = mode === 'login'
         ? await login(email, password)
         : await signup(email, password);
 
@@ -46,8 +46,8 @@ export const AuthPage: React.FC<AuthPageProps> = ({ mode, onNavigate }) => {
         setTimeout(() => onNavigate('dashboard'), 1000);
       } else {
         showError(
-          mode === 'login' 
-            ? 'Invalid credentials. Please try again.' 
+          mode === 'login'
+            ? 'Invalid credentials. Please try again.'
             : 'Email already exists. Please use a different email.'
         );
       }
@@ -61,7 +61,7 @@ export const AuthPage: React.FC<AuthPageProps> = ({ mode, onNavigate }) => {
   return (
     <div className="min-h-screen bg-black flex items-center justify-center p-4">
       {toast && <Toast {...toast} onClose={hideToast} />}
-      
+
       <div className="w-full max-w-md">
         <div className="bg-[#0B0B12] rounded-2xl shadow-xl p-8">
           <div className="text-center mb-8">

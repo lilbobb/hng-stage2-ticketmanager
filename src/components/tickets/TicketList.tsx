@@ -18,7 +18,7 @@ export const TicketList: React.FC<TicketListProps> = ({ tickets, onEdit, onDelet
     }
 
     const query = searchQuery.toLowerCase().trim();
-    return tickets.filter(ticket => 
+    return tickets.filter(ticket =>
       ticket.title.toLowerCase().includes(query) ||
       (ticket.description && ticket.description.toLowerCase().includes(query)) ||
       ticket.status.toLowerCase().includes(query) ||
@@ -33,16 +33,16 @@ export const TicketList: React.FC<TicketListProps> = ({ tickets, onEdit, onDelet
   return (
     <div>
       <div className="mb-6">
-        <div className="relative max-w-md">
+        <div className="relative max-w-full sm:max-w-md">
           <input
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search tickets by title or description..."
-            className="w-full pl-10 pr-10 py-3 border border-gray-500 rounded-lg focus:border-gray-900 text-gray-200 placeholder-gray-500 transition"
+            className="w-full pl-10 pr-10 py-2 sm:py-3 border border-gray-500 rounded-lg focus:border-gray-900 text-gray-200 placeholder-gray-500 transition text-sm sm:text-base"
           />
           <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-            <Search className="w-5 h-5 text-gray-400" />
+            <Search className="w-4 h-4 sm:w-5 sm:h-5 text-gray-400" />
           </div>
           {searchQuery && (
             <button
@@ -53,30 +53,30 @@ export const TicketList: React.FC<TicketListProps> = ({ tickets, onEdit, onDelet
             </button>
           )}
         </div>
-        
+
         {searchQuery && (
-          <div className="mt-2 text-sm text-gray-600">
+          <div className="mt-2 text-xs sm:text-sm text-gray-600">
             Found {filteredTickets.length} ticket{filteredTickets.length !== 1 ? 's' : ''} for "{searchQuery}"
           </div>
         )}
       </div>
 
       {filteredTickets.length === 0 && !searchQuery && (
-        <div className="p-12 rounded-xl shadow-sm border border-gray-400 text-center">
-          <p className="text-gray-500 text-lg">
+        <div className="p-6 sm:p-8 lg:p-12 rounded-xl shadow-sm border border-gray-400 text-center">
+          <p className="text-gray-500 text-base sm:text-lg">
             No tickets found. Create your first ticket to get started!
           </p>
         </div>
       )}
 
       {filteredTickets.length === 0 && searchQuery && (
-        <div className="bg-white p-12 rounded-xl shadow-sm border border-gray-200 text-center">
-          <p className="text-gray-500 text-lg">
+        <div className="bg-[#0B0B12] p-6 sm:p-8 lg:p-12 rounded-xl shadow-sm border border-gray-400 text-center">
+          <p className="text-gray-500 text-base sm:text-lg mb-4">
             No tickets found for "{searchQuery}"
           </p>
-          <button 
+          <button
             onClick={clearSearch}
-            className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition text-sm sm:text-base"
           >
             Clear Search
           </button>
@@ -84,7 +84,7 @@ export const TicketList: React.FC<TicketListProps> = ({ tickets, onEdit, onDelet
       )}
 
       {filteredTickets.length > 0 && (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6">
           {filteredTickets.map((ticket) => (
             <TicketCard
               key={ticket.id}
