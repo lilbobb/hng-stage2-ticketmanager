@@ -1,12 +1,13 @@
-import React from 'react';
 import { WaveBackground } from './WaveBackground';
 import { Button } from '../ui/Button';
+import { useAuth } from '../../hooks/useAuth';
 
 interface HeroSectionProps {
   onNavigate: (page: string) => void;
 }
 
 export const HeroSection: React.FC<HeroSectionProps> = ({ onNavigate }) => {
+  const { isAuthenticated } = useAuth();
   return (
     <div className="relative overflow-hidden bg-[#0B0B12] text-white">
       <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-20 lg:py-32 relative z-10">
@@ -18,23 +19,36 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onNavigate }) => {
             Streamline your workflow with our powerful ticket management system. Track, organize, and resolve issues faster than ever.
           </p>
           <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center">
-            <Button
-              onClick={() => onNavigate('signup')}
-              variant="primary"
-              size="lg"
-              className="w-full sm:w-auto transform hover:-translate-y-0.5 active:translate-y-0"
-            >
-              Get Started
-            </Button>
+            {!isAuthenticated ? (
+              <>
+                <Button
+                  onClick={() => onNavigate('signup')}
+                  variant="primary"
+                  size="lg"
+                  className="w-full sm:w-auto transform hover:-translate-y-0.5 active:translate-y-0"
+                >
+                  Get Started
+                </Button>
 
-            <Button
-              onClick={() => onNavigate('login')}
-              variant="outline"
-              size="lg"
-              className="w-full sm:w-auto border-white/50 text-white hover:border-white transform hover:-translate-y-0.5 active:translate-y-0"
-            >
-              Login
-            </Button>
+                <Button
+                  onClick={() => onNavigate('login')}
+                  variant="outline"
+                  size="lg"
+                  className="w-full sm:w-auto border-white/50 text-white hover:border-white transform hover:-translate-y-0.5 active:translate-y-0"
+                >
+                  Login
+                </Button>
+              </>
+            ) : (
+              <Button
+                onClick={() => onNavigate('dashboard')}
+                variant="primary"
+                size="lg"
+                className="w-full sm:w-auto transform hover:-translate-y-0.5 active:translate-y-0"
+              >
+                Go to Dashboard
+              </Button>
+            )}
           </div>
         </div>
       </div>
